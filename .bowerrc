@@ -1,0 +1,5 @@
+{
+  "directory": "public/assets",
+  "analytics": true,
+  "timeout": 120000
+}
