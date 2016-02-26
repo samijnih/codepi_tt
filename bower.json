@@ -1,0 +1,22 @@
+{
+  "name": "Test Technique Codepi",
+  "description": "Test Technique Codepi",
+  "main": "public/index.php",
+  "authors": [
+    "Sami Jnih <sami.jnih@job2day.fr>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "test",
+    "codepi"
+  ],
+  "homepage": "https://github.com/samijnih/codepi_tt",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

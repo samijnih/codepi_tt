@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\ImportArtists::class,
         Commands\ImportShows::class,
+        Commands\InstallDb::class
     ];
 
     /**
