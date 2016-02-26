@@ -57,66 +57,66 @@ class InstallDb extends Command
     public function handle()
     {
         do {
-            $database = $this->ask('How would you like to name your database?');
-            $username = $this->anticipate('What is your MySQL username?', ['root']);
-            $password = $this->secret('What is your MySQL password?');
+            $info['database'] = $this->ask('How would you like to name your database?');
+            $info['username'] = $this->anticipate('What is your MySQL username?', ['root']);
+            $info['password'] = $this->secret('What is your MySQL password?');
 
             $headers = ['Database', 'Username', 'Password'];
-            $data    = [[$database, $username, 'The password you chose']];
+            $data    = [[$info['database'], $info['username'], 'The password you chose']];
 
             $this->table($headers, $data);
         } while (!$this->confirm('Is it correct?'));
 
         try {
-            $file = base_path('.env');
+            $this->updateEnv($info);
 
-            if (!$this->filesystem->exists($file)) {
-                throw new Exception("`.env` file doesn't exist.");
-            }
+            /////////////////////////////////////////////////////////////
+            // Create the database if don't exists with the given name //
+            /////////////////////////////////////////////////////////////
+            DB::connection('tmp')->statement("CREATE DATABASE IF NOT EXISTS `{$info['database']}`");
 
-            ////////////////////////////
-            // Add permission to .env //
-            ////////////////////////////
-            chmod($file, 0755);
-
-            $env = file_get_contents($file);
-
-            $newEnv = preg_replace([
-                '/DB_DATABASE=(.+)/',
-                '/DB_USERNAME=(.+)/',
-                '/DB_PASSWORD=(.+)/'
-            ], [
-                "DB_DATABASE={$database}",
-                "DB_USERNAME={$username}",
-                "DB_PASSWORD={$password}"
-            ], $env);
-
-            if (($bytes = file_put_contents($file, $newEnv)) === false) {
-                throw new Exception('Failed to update the `.env`');
-            }
-
-            $this->info("`.env` updated, {$bytes} bytes written.");
-
-            $exists = DB::connection('tmp')->statement(
-                "SELECT SCHEMA_NAME
-                FROM INFORMATION_SCHEMA.SCHEMATA
-                WHERE SCHEMA_NAME = '$database'"
-            );
-
-            if (!$exists) {
-                /////////////////////////////////////////////////////////////
-                // Create the database if don't exists with the given name //
-                /////////////////////////////////////////////////////////////
-                $created = DB::connection('tmp')->statement("CREATE DATABASE IF NOT EXISTS `{$database}`");
-
-                $this->info("`{$database}` database " . ($created ? '' : 'not') . 'created');
-            } else {
-                $this->info("`{$database}` database already exists.");
-            }
+            $this->info('Everything is ok, running migrations now.');
 
             $this->call('migrate');
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }
+    }
+
+    /**
+     * Update the .env file with user's input.
+     * 
+     * @param array $info
+     */
+    private function updateEnv(array $info)
+    {
+        $file = base_path('.env');
+
+        if (!$this->filesystem->exists($file)) {
+            throw new Exception("`.env` file doesn't exist.");
+        }
+
+        ////////////////////////////
+        // Add permission to .env //
+        ////////////////////////////
+        chmod($file, 0755);
+
+        $env = file_get_contents($file);
+
+        $newEnv = preg_replace([
+            '/DB_DATABASE=(.+)/',
+            '/DB_USERNAME=(.+)/',
+            '/DB_PASSWORD=(.+)/'
+        ], [
+            "DB_DATABASE={$info['database']}",
+            "DB_USERNAME={$info['username']}",
+            "DB_PASSWORD={$info['password']}"
+        ], $env);
+
+        if (($bytes = file_put_contents($file, $newEnv)) === false) {
+            throw new Exception('Failed to update the `.env`');
+        }
+
+        $this->info("`.env` updated, {$bytes} bytes written.");
     }
 }
