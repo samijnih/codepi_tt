@@ -18,6 +18,11 @@ class Artist extends Model
         'tags',
     ];
 
+
+    ///////////////////
+    // Relationships //
+    ///////////////////
+
     /**
      * Get the shows for the artist.
      * 
@@ -25,6 +30,22 @@ class Artist extends Model
      */
     public function shows()
     {
-        return $this->hasMany('App\Show');
+        return $this->hasMany('App\Models\Show');
+    }
+
+    /////////////
+    // Helpers //
+    /////////////
+
+    /**
+     * Get an artist with its name.
+     * 
+     * @param  string $name
+     * 
+     * @return mixed
+     */
+    public static function findByName($name)
+    {
+        return static::where('name', $name)->first();
     }
 }
