@@ -26,7 +26,7 @@ class ImportArtists extends Command
     protected $description = 'Import all artists in the given CSV file.';
 
     /**
-     * The filesystem service
+     * The filesystem service.
      * 
      * @var Filesystem
      */
@@ -66,7 +66,7 @@ class ImportArtists extends Command
         /////////////////////////////////////////////////////////
         // Retrieve the file's name and generate the full path //
         /////////////////////////////////////////////////////////
-        $file     = $this->anticipate('What is the name of the CSV file ?', ['artistes']);
+        $file     = $this->anticipate('What is the name of the CSV file?', ['artistes']);
         $resource = base_path("resources/assets/{$file}.csv");
 
         try {
@@ -81,8 +81,27 @@ class ImportArtists extends Command
 
                 return;
             }
-            
-            die(var_dump($csv));
+ 
+            $header = array_map('strtolower', $csv[0]);
+
+            unset($csv[0]);
+
+            //////////////////
+            // Progress Bar //
+            //////////////////
+            $bar = $this->output->createProgressBar(count($csv));
+
+            foreach ($csv as $row => $artist) {
+                $data = array_combine($header, $artist);
+
+                Artist::firstOrCreate($data);
+
+                $bar->advance();
+            }
+
+            $bar->finish();
+
+            $this->info("\nArtists imported.");
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }
