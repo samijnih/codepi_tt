@@ -11,6 +11,35 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+///////////
+// Index //
+///////////
+Route::get('/', [
+    'as'   => 'index',
+    'uses' => 'IndexController@index',
+]);
+
+/////////////////
+// Auth routes //
+/////////////////
+Route::group([
+    'prefix'    => 'admin',
+    'as'        => 'auth::',
+    'namespace' => 'Auth',
+], function () {
+    Route::get('login', [
+        'as'   => 'login',
+        'uses' => 'AuthController@getLogin',
+    ]);
+
+    Route::post('login', [
+        'as'   => 'login',
+        'uses' => 'AuthController@postLogin',
+    ]);
+
+    Route::get('logout', [
+        'as'   => 'logout',
+        'uses' => 'AuthController@getLogout',
+    ]);
 });
+
