@@ -19,27 +19,48 @@ Route::get('/', [
     'uses' => 'IndexController@index',
 ]);
 
-/////////////////
-// Auth routes //
-/////////////////
+//////////////////
+// Admin routes //
+//////////////////
 Route::group([
     'prefix'    => 'admin',
-    'as'        => 'auth::',
-    'namespace' => 'Auth',
+    'namespace' => 'Admin',
+    'as'        => 'admin::',
 ], function () {
-    Route::get('login', [
-        'as'   => 'login',
-        'uses' => 'AuthController@getLogin',
-    ]);
+    /////////////////
+    // Auth routes //
+    /////////////////
+    Route::group([
+        'as'        => 'auth::',
+        'namespace' => 'Auth',
+    ], function () {
+        Route::get('login', [
+            'as'   => 'login',
+            'uses' => 'AuthController@getLogin',
+        ]);
 
-    Route::post('login', [
-        'as'   => 'login',
-        'uses' => 'AuthController@postLogin',
-    ]);
+        Route::post('login', [
+            'as'   => 'login',
+            'uses' => 'AuthController@postLogin',
+        ]);
 
-    Route::get('logout', [
-        'as'   => 'logout',
-        'uses' => 'AuthController@getLogout',
-    ]);
+        Route::get('logout', [
+            'as'   => 'logout',
+            'uses' => 'AuthController@getLogout',
+        ]);
+    });
+    
+    /////////////////
+    // Shows route //
+    /////////////////
+    Route::group([
+        'middleware' => 'auth',
+        'as'         => 'show::',
+        'namespace'  => 'Show',
+    ], function () {
+        Route::get('/', [
+            'as'   => 'index',
+            'uses' => 'ShowController@getIndex',
+        ]);
+    });
 });
-

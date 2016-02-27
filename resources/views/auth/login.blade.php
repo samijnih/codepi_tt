@@ -9,11 +9,11 @@
         <h2>{{ trans('admin.login_h2') }}</h2>
 
         <div id="admin-login" class="m-t-30">
-            {!! Form::open(['route' => 'auth::login', 'id' => 'admin-login-form']) !!}
+            {!! Form::open(['route' => 'admin::auth::login', 'id' => 'admin-login-form']) !!}
                 <div class="form-group">
                     {!! Form::label('email', trans('admin.email_label'), ['class' => 'control-label pull-left m-l-30']) !!}
                     <div class="col-lg-4">
-                        {!! Form::text('email', null, ['class' => 'form-control']) !!}
+                        {!! Form::text('email', null, ['class' => 'form-control', 'autofocus']) !!}
                     </div>
                 </div>
 

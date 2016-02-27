@@ -8,7 +8,7 @@
     </div>
 
     @if (Request::is('admin/*'))
-        <div id="back-to-home" class="pull-right m-t-10">
+        <div id="back-to-home" class="pull-right m-t-5">
             <a href="{{ route('index') }}">
                 <i class="fa fa-home fa-1-5"></i> {{ trans('website.back_to_home') }}
             </a>

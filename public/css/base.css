@@ -140,8 +140,12 @@
     height: auto;
 }
 
+#back-to-home {
+    padding: 5px 15px;
+}
+
 #back-to-home a {
-    padding: 10px 15px;
+    /*padding: 10px 15px;*/
 }
 
 /* Home */

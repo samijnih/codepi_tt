@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Admin\Auth;
 
-use App\User;
+use App\Models\User;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -21,9 +21,35 @@ class AuthController extends Controller
     |
     */
 
-    use ThrottlesLogins, AuthenticatesAndRegistersUsers {
-        AuthenticatesAndRegistersUsers::postLogin as _postLogin;
-    }
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    /**
+     * $redirectPath is the first property which is checked by
+     * \Illuminate\Foundation\Auth\RedirectsUsers::redirectPath()
+     * If $redirectTo doesn't exist, '/home' will be used
+     * @var string
+     */
+    protected $redirectPath;
+
+    /**
+     * Url to use to redirect the user after the authentication
+     * If $redirectPath doesn't exist, $redirectTo will be used
+     * @var string
+     */
+    protected $redirectTo;
+
+    /** 
+     * The login path
+     * @var string
+     */
+    protected $loginPath;
+
+    /** 
+     * Url to use to redirect the user after his logout
+     * @var string
+     */
+    protected $redirectAfterLogout = '/';
+
 
     /**
      * Create a new authentication controller instance.
@@ -33,6 +59,9 @@ class AuthController extends Controller
     public function __construct()
     {
         $this->middleware('guest', ['except' => 'getLogout']);
+
+        $this->redirectPath = route('admin::show::index');
+        $this->loginPath    = route('admin::auth::login');
     }
 
     /**
@@ -59,7 +88,6 @@ class AuthController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
