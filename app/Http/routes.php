@@ -11,6 +11,56 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+///////////
+// Index //
+///////////
+Route::get('/', [
+    'as'   => 'index',
+    'uses' => 'IndexController@index',
+]);
+
+//////////////////
+// Admin routes //
+//////////////////
+Route::group([
+    'prefix'    => 'admin',
+    'namespace' => 'Admin',
+    'as'        => 'admin::',
+], function () {
+    /////////////////
+    // Auth routes //
+    /////////////////
+    Route::group([
+        'as'        => 'auth::',
+        'namespace' => 'Auth',
+    ], function () {
+        Route::get('login', [
+            'as'   => 'login',
+            'uses' => 'AuthController@getLogin',
+        ]);
+
+        Route::post('login', [
+            'as'   => 'login',
+            'uses' => 'AuthController@postLogin',
+        ]);
+
+        Route::get('logout', [
+            'as'   => 'logout',
+            'uses' => 'AuthController@getLogout',
+        ]);
+    });
+    
+    /////////////////
+    // Shows route //
+    /////////////////
+    Route::group([
+        'middleware' => 'auth',
+        'as'         => 'show::',
+        'namespace'  => 'Show',
+    ], function () {
+        Route::get('/', [
+            'as'   => 'index',
+            'uses' => 'ShowController@getIndex',
+        ]);
+    });
 });

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use DB;
 use Exception;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -56,6 +57,14 @@ class InstallDb extends Command
      */
     public function handle()
     {
+        ////////////////////////////////////////
+        // Duplicate `.env.example` to `.env` //
+        ////////////////////////////////////////
+        exec("php -r \"copy('.env.example', '.env');\"");
+
+        ////////////////////////////////////////////////////
+        // STDIN to update the .env's database connection //
+        ////////////////////////////////////////////////////
         do {
             $info['database'] = $this->ask('How would you like to name your database?');
             $info['username'] = $this->anticipate('What is your MySQL username?', ['root']);
@@ -70,14 +79,39 @@ class InstallDb extends Command
         try {
             $this->updateEnv($info);
 
-            /////////////////////////////////////////////////////////////
-            // Create the database if don't exists with the given name //
-            /////////////////////////////////////////////////////////////
+            sleep(1);
+
+            /////////////////////////////////////////////
+            // Create the database if it doesn't exist //
+            /////////////////////////////////////////////
             DB::connection('tmp')->statement("CREATE DATABASE IF NOT EXISTS `{$info['database']}`");
 
             $this->info('Everything is ok, running migrations now.');
-
             $this->call('migrate');
+
+            $this->info('Importing artists.');
+            $this->call('import:artists');
+
+            $this->info('Importing shows.');
+            $this->call('import:shows');
+
+            /////////////////////////////////////
+            // Get or create the admin account //
+            /////////////////////////////////////
+            if (!$user = User::where('email', 'user@codepi.com')->first()) {
+                $user = User::create([
+                    'email'    => 'user@codepi.com',
+                    'password' => bcrypt('pwd2015'),
+                ]);
+            }
+
+            $headers = ['email','password'];
+
+            $this->info('This is your credentials:');
+            $this->table($headers, [[$user->email, 'pwd2015']]);
+
+            $this->info('You can now login into the admin on:');
+            $this->info(route('admin::auth::login'));
         } catch (Exception $e) {
             $this->error($e->getMessage());
         }
@@ -104,10 +138,12 @@ class InstallDb extends Command
         $env = file_get_contents($file);
 
         $newEnv = preg_replace([
+            '/APP_KEY=(.+)/',
             '/DB_DATABASE=(.+)/',
             '/DB_USERNAME=(.+)/',
             '/DB_PASSWORD=(.+)/'
         ], [
+            'APP_KEY=Pvlx3t7GjQNPyuUXWP94RXCbwDMv0JtP',
             "DB_DATABASE={$info['database']}",
             "DB_USERNAME={$info['username']}",
             "DB_PASSWORD={$info['password']}"
