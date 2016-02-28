@@ -4,7 +4,7 @@ namespace App\Http\Requests\Show;
 
 use App\Http\Requests\Request;
 
-class StoreShowPostRequest extends Request
+class StoreUpdateShowPostPatchRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.

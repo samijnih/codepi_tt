@@ -8,6 +8,12 @@
     <div class="row">
         <h2 class="m-b-30">{{ $h2 }}</h2>
 
+        @if (session('updated'))
+            <div class="alert alert-success m-t-30 text-center">
+                {{ session('updated') }}
+            </div>
+        @endif
+
         @if ($show)
             {!! Form::model($show, ['route' => ['admin::show::update', $show->id], 'method' => 'PATCH', 'class' => 'form-horizontal col-lg-9 col-lg-offset-2']) !!}
         @else
@@ -88,7 +94,7 @@
 
             <div class="text-center">
                 {!! Form::submit(trans('admin/show.button_store'), ['class' => 'btn btn-success m-r-30']) !!}
-                <a href="{{ URL::previous() }}" class="btn btn-danger">{{ trans('admin/show.button_cancel') }}</a>
+                <a href="{{ route('admin::show::index') }}" class="btn btn-danger">{{ trans('admin/show.button_cancel') }}</a>
             </div>
         {!! Form::close() !!}
     </div>

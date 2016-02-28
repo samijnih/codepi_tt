@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin\Show;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Show\StoreShowPostRequest;
+use App\Http\Requests\Show\StoreUpdateShowPostPatchRequest;
 use App\Models\Artist;
 use App\Models\Show;
 use Illuminate\Http\Request;
@@ -77,11 +77,11 @@ class ShowController extends Controller
     /**
      * Store a new show.
      * 
-     * @param StoreShowPostRequest $request
+     * @param App\Http\Requests\Show\StoreUpdateShowPostPatchRequest $request
      * 
      * @return Illuminate\Http\Response
      */
-    public function store(StoreShowPostRequest $request)
+    public function store(StoreUpdateShowPostPatchRequest $request)
     {
         $show = new Show($request->all());
         
@@ -90,5 +90,31 @@ class ShowController extends Controller
 
         return redirect(route('admin::show::index'))
             ->with('stored', trans('admin/show.show_stored'));
+    }
+
+    /**
+     * Update an existing show.
+     * 
+     * @param App\Http\Requests\Show\StoreUpdateShowPostPatchRequest $request
+     * @param $id
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function update(StoreUpdateShowPostPatchRequest $request, $id)
+    {
+        if (!$show = Show::find($id)) {
+            return abort(404);
+        }
+        
+        $show->place = $request->place;
+        $show->date  = $request->date;
+        $show->time  = $request->time;
+        $show->price = $request->price;
+
+        $show->artist()->associate(Artist::find($request->artist));
+        $show->save();
+
+        return redirect(route('admin::show::show', [$show->id]))
+            ->with('updated', trans('admin/show.show_updated'));
     }
 }
