@@ -93,4 +93,23 @@ class IndexController extends Controller
             'queryString' => $filters,
         ]);
     }
+
+    /**
+     * Get the show detail.
+     * 
+     * @param Illuminate\Http\Request $request
+     * @param string $id
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function show(Request $request, $id)
+    {
+        if (!$show = Show::find($id)) {
+            return abort(404);
+        }
+
+        return view('show', [
+            'show' => $show,
+        ]);
+    }
 }
