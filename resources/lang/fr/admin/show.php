@@ -40,6 +40,22 @@ return [
     'button_store'          => 'Valider',
     'button_cancel'         => 'Annuler',
 
+    ///////////
+    // STORE //
+    ///////////
+    'store_artist_required'  => 'Un artiste est requis.',
+    'store_artist_exists'    => "Cet artiste n'existe pas.",
+    'store_place_required'   => 'Un lieu est requis.',
+    'store_place_exists'     => "Ce lieu n'existe pas.",
+    'store_date_required'    => 'La date est requise.',
+    'store_date_date_format' => 'Le format de la date doit être :format.',
+    'store_time_required'    => 'Le temps est requis.',
+    'store_time_regex'       => 'Le format du temps doit être :regex.',
+    'store_price_required'   => 'Le prix est requis.',
+    'store_price_numeric'    => 'Le prix doit être numérique.',
+    'store_price_min'        => 'Le prix doit être supérieur à :min.',
+    'show_stored'            => 'Le concert a bien été enregistré.',
+
     ////////////
     // DELETE //
     ////////////

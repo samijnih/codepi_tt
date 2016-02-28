@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Show;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Show\StoreShowPostRequest;
 use App\Models\Artist;
 use App\Models\Show;
 use Illuminate\Http\Request;
@@ -38,10 +39,10 @@ class ShowController extends Controller
 
         $artists = Artist::all()
             ->pluck('name', 'id')
-            ->prepend(trans('admin/show.select_artist_default'));
+            ->prepend(trans('admin/show.select_artist_default'), '');
         $places  = Show::places()
             ->pluck('place', 'place')
-            ->prepend(trans('admin/show.select_place_default'));
+            ->prepend(trans('admin/show.select_place_default'), '');
 
         return view('admin.show.form', [
             'h2'      => trans('admin/show.show_h2'),
@@ -60,10 +61,10 @@ class ShowController extends Controller
     {
         $artists = Artist::all()
             ->pluck('name', 'id')
-            ->prepend(trans('admin/show.select_artist_default'));
+            ->prepend(trans('admin/show.select_artist_default'), '');
         $places  = Show::places()
             ->pluck('place', 'place')
-            ->prepend(trans('admin/show.select_place_default'));
+            ->prepend(trans('admin/show.select_place_default'), '');
 
         return view('admin.show.form', [
             'h2'      => trans('admin/show.create_h2'),
@@ -71,5 +72,23 @@ class ShowController extends Controller
             'places'  => $places,
             'show'    => null,
         ]);
+    }
+
+    /**
+     * Store a new show.
+     * 
+     * @param StoreShowPostRequest $request
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function store(StoreShowPostRequest $request)
+    {
+        $show = new Show($request->all());
+        
+        $show->artist()->associate(Artist::find($request->artist));
+        $show->save();
+
+        return redirect(route('admin::show::index'))
+            ->with('stored', trans('admin/show.show_stored'));
     }
 }

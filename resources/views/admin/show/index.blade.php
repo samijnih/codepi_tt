@@ -10,6 +10,12 @@
         
         <h2>{{ trans('admin/show.index_h2') }}</h2>
 
+        @if (session('stored'))
+            <div class="alert alert-success m-t-30 text-center">
+                {{ session('stored') }}
+            </div>
+        @endif
+
         <table class="table table-bordered table-striped m-t-30">
             <thead>
                 <th>{{ trans('admin/show.index_thead_artist') }}</th>
