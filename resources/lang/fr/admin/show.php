@@ -64,4 +64,5 @@ return [
     ////////////
     // DELETE //
     ////////////
+    'show_destroyed' => 'Le concert a bien été supprimé.',
 ];

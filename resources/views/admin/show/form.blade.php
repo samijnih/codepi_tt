@@ -8,9 +8,9 @@
     <div class="row">
         <h2 class="m-b-30">{{ $h2 }}</h2>
 
-        @if (session('updated'))
+        @if (session('message'))
             <div class="alert alert-success m-t-30 text-center">
-                {{ session('updated') }}
+                {{ session('message') }}
             </div>
         @endif
 
