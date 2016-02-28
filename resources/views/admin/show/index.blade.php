@@ -6,9 +6,9 @@
 
 @section('content')
     <div class="row">
-    <a href="{{ route('admin::show::create') }}" class="btn btn-success pull-right m-t-20">{{ trans('admin/show.index_new_show') }}</a>
+        <a href="{{ route('admin::show::create') }}" class="btn btn-success pull-right m-t-20">{{ trans('admin/show.index_new_show') }}</a>
+        
         <h2>{{ trans('admin/show.index_h2') }}</h2>
-
 
         <table class="table table-bordered table-striped m-t-30">
             <thead>

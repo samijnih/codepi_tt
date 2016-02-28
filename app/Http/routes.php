@@ -68,22 +68,22 @@ Route::group([
             'uses' => 'ShowController@create',
         ]);
 
-        Route::get('{$id}', [
+        Route::get('{id}', [
             'as'   => 'show',
             'uses' => 'ShowController@show',
         ]);
 
-        Route::post('{$id}', [
+        Route::post('/', [
             'as'   => 'store',
             'uses' => 'ShowController@store',
         ]);
 
-        Route::patch('{$id}', [
+        Route::patch('{id}', [
             'as'   => 'update',
             'uses' => 'ShowController@update',
         ]);
 
-        Route::delete('{$id}', [
+        Route::delete('{id}', [
             'as'   => 'destroy',
             'uses' => 'ShowController@destroy',
         ]);
