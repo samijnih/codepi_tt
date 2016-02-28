@@ -25,8 +25,8 @@ class Show extends Model
      * 
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function artists()
+    public function artist()
     {
-        return $this->belongsToMany('App\Models\Artist');
+        return $this->belongsTo('App\Models\Artist');
     }
 }

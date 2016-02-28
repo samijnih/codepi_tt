@@ -1,4 +1,4 @@
-<div id="header" class="row m-t-30 m-b-30 separator">
+<div id="header" class="row m-t-30 m-b-20 separator">
     <div id="brand-logo" class="col-lg-2">
         <img src="{{ URL::asset('img/logo_codepi.png') }}" alt="{{ trans('website.brand_logo_alt') }}">
     </div>

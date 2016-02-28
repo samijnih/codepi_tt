@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Show;
 
 use App\Http\Controllers\Controller;
+use App\Models\Show;
 use Illuminate\Http\Request;
 
 class ShowController extends Controller
@@ -14,8 +15,12 @@ class ShowController extends Controller
      * 
      * @return Illuminate\Http\Response
      */
-    public function getIndex(Request $request)
+    public function index(Request $request)
     {
-        return 'ok';
+        $shows = Show::paginate(9);
+
+        return view('admin.show.index', [
+            'shows' => $shows,
+        ]);
     }
 }
