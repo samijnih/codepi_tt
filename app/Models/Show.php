@@ -29,4 +29,17 @@ class Show extends Model
     {
         return $this->belongsTo('App\Models\Artist');
     }
+
+    /**
+     * Get all available places
+     * 
+     * @return mixed
+     */
+    public static function places()
+    {
+        return static::select('place')
+            ->distinct()
+            ->where('place', '<>', '')
+            ->get();
+    }
 }
