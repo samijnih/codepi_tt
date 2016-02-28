@@ -19,6 +19,14 @@ Route::get('/', [
     'uses' => 'IndexController@index',
 ]);
 
+//////////
+// Show //
+//////////
+Route::get('/shows/{id}', [
+    'as'   => 'show',
+    'uses' => 'IndexController@show',
+]);
+
 //////////////////
 // Admin routes //
 //////////////////

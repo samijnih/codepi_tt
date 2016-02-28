@@ -28,7 +28,7 @@
             @forelse($shows as $show)
                 <tr>
                     <td>{{ $show->artist->name }}</td>
-                    <td>{{ \Carbon\Carbon::parse($show->date)->formatLocalized('%d/%m/%Y') }}</td>
+                    <td>{{ \Carbon\Carbon::createFromFormat('d/m/Y', $show->date)->formatLocalized('%d/%m/%Y') }}</td>
                     <td>{{ $show->place }}</td>
                     <td>
                         <a href="{{ route('admin::show::show', [$show->id]) }}" class="update-show">{{ trans('admin/show.edit_show') }}</a>
@@ -47,7 +47,7 @@
         </table>
 
         <div class="text-center">
-            @include('pagination.default', ['paginator' => $shows])
+            @include('pagination.admin.default', ['paginator' => $shows])
         </div>
     </div>
 @endsection

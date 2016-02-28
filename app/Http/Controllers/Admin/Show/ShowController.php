@@ -40,6 +40,7 @@ class ShowController extends Controller
         $artists = Artist::all()
             ->pluck('name', 'id')
             ->prepend(trans('admin/show.select_artist_default'), '');
+
         $places  = Show::places()
             ->pluck('place', 'place')
             ->prepend(trans('admin/show.select_place_default'), '');
@@ -62,6 +63,7 @@ class ShowController extends Controller
         $artists = Artist::all()
             ->pluck('name', 'id')
             ->prepend(trans('admin/show.select_artist_default'), '');
+            
         $places  = Show::places()
             ->pluck('place', 'place')
             ->prepend(trans('admin/show.select_place_default'), '');

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ trans('website.title') }}</title>
         {!! Html::style(URL::asset('assets/bootstrap/dist/css/bootstrap.min.css')) !!}
+        {!! Html::style(URL::asset('assets/toastr/toastr.min.css')) !!}
         {!! Html::style(URL::asset('assets/font-awesome/css/font-awesome.min.css')) !!}
         {!! Html::style(URL::asset('css/base.css')) !!}
         @yield('css')
@@ -15,6 +16,18 @@
         <![endif]-->
     </head>
     <body>
+        <div class="sk-cube-grid" id="loading">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+
         <div class="container">
             @include('layout.header')
             @yield('content')
@@ -22,6 +35,26 @@
 
         {!! Html::script(URL::asset('assets/jquery/dist/jquery.min.js')) !!}
         {!! Html::script(URL::asset('assets/bootstrap/dist/js/bootstrap.min.js')) !!}
-        @yield('js')
+        {!! Html::script(URL::asset('assets/toastr/toastr.min.js')) !!}
+        @yield('script')
+        <script>
+            $(document).ready(function () {
+                var $loading = $("#loading").hide();
+
+                $(document).ajaxStart(function () {
+                    $loading.show();
+                }).ajaxStop(function () {
+                    $loading.hide();
+                });
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': {!! json_encode(csrf_token()) !!},
+                    }
+                });
+
+                @yield('js')
+            });
+        </script>
     </body>
 </html>
