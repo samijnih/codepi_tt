@@ -10,13 +10,13 @@
         
         <h2>{{ trans('admin/show.index_h2') }}</h2>
 
-        @if (session('stored'))
+        @if (session('message'))
             <div class="alert alert-success m-t-30 text-center">
-                {{ session('stored') }}
+                {{ session('message') }}
             </div>
         @endif
 
-        <table class="table table-bordered table-striped m-t-30">
+        <table class="table table-bordered table-striped m-t-30" id="show-collection">
             <thead>
                 <th>{{ trans('admin/show.index_thead_artist') }}</th>
                 <th>{{ trans('admin/show.index_thead_date') }}</th>
@@ -31,10 +31,12 @@
                     <td>{{ \Carbon\Carbon::parse($show->date)->formatLocalized('%d/%m/%Y') }}</td>
                     <td>{{ $show->place }}</td>
                     <td>
-                        <a href="{{ route('admin::show::show', [$show->id]) }}">{{ trans('admin/show.edit_show') }}</a>
+                        <a href="{{ route('admin::show::show', [$show->id]) }}" class="update-show">{{ trans('admin/show.edit_show') }}</a>
                     </td>
                     <td>
-                        <a href="{{ route('admin::show::destroy', [$show->id]) }}">{{ trans('admin/show.destroy_show') }}</a>
+                        {!! Form::open(['route' => ['admin::show::destroy', $show->id], 'method' => 'DELETE']) !!}
+                            {!! Form::submit(trans('admin/show.destroy_show'), ['class' => 'delete-show']) !!}
+                        {!! Form::close() !!}
                     </td>
                 </tr>
             @empty

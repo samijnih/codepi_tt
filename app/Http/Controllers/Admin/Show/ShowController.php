@@ -89,7 +89,7 @@ class ShowController extends Controller
         $show->save();
 
         return redirect(route('admin::show::index'))
-            ->with('stored', trans('admin/show.show_stored'));
+            ->with('message', trans('admin/show.show_stored'));
     }
 
     /**
@@ -115,6 +115,25 @@ class ShowController extends Controller
         $show->save();
 
         return redirect(route('admin::show::show', [$show->id]))
-            ->with('updated', trans('admin/show.show_updated'));
+            ->with('message', trans('admin/show.show_updated'));
+    }
+
+    /**
+     * Destroy a show.
+     * 
+     * @param $id
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        if (!$show = Show::find($id)) {
+            return abort(404);
+        }
+
+        Show::destroy($id);
+
+        return redirect(route('admin::show::index'))
+            ->with('message', trans('admin/show.show_destroyed'));
     }
 }

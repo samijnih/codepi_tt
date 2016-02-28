@@ -7,7 +7,7 @@
         <h1 class="text-center">{{ strtoupper(trans('website.company')) }}</h1>
     </div>
 
-    @if (Request::is('admin/*'))
+    @if (Request::is('admin/*') || Request::is('admin'))
         <div id="back-to-home" class="pull-right m-t-5">
             <a href="{{ route('index') }}">
                 <i class="fa fa-home fa-1-5"></i> {{ trans('website.back_to_home') }}

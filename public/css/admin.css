@@ -1,0 +1,28 @@
+/* Admin Login */
+
+#admin-login {
+    border: solid 1px black;
+    padding: 20px 30px;
+}
+
+#admin-login .form-group {
+    margin-bottom: 0px;
+}
+
+label[for=email], label[for=password] {
+    height: 35px;
+    padding-top: 6px;
+}
+
+/* Admin Index*/
+
+#show-collection .update-show, #show-collection .delete-show {
+    text-decoration: underline;
+}
+
+#show-collection .delete-show {
+    color: #337ab7;
+    background: none!important;
+    border: none;
+    padding: 0!important;
+}
