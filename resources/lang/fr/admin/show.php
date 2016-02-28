@@ -57,6 +57,11 @@ return [
     'show_stored'            => 'Le concert a bien été enregistré.',
 
     ////////////
+    // UPDATE //
+    ////////////
+    'show_updated' => 'Le concert a bien été mis à jour.',
+
+    ////////////
     // DELETE //
     ////////////
 ];
