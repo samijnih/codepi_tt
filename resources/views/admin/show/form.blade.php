@@ -53,7 +53,7 @@
             <div class="form-group @if ($errors->has('date'))has-error @endif">
                 {!! Form::label('date', trans('admin/show.label_date'), ['class' => 'control-label col-lg-1']) !!}
                 <div class="col-lg-11">
-                    {!! Form::date('date', ($show ? $show->date : $now), ['class' => 'form-control', 'required']) !!}
+                    {!! Form::date('date', ($show ? \Carbon\Carbon::createFromFormat('d/m/Y', $show->date) : $now), ['class' => 'form-control', 'required']) !!}
                 </div>
             </div>
             @if ($errors->has('date'))
@@ -81,7 +81,7 @@
             <div class="form-group @if ($errors->has('price'))has-error @endif">
                 {!! Form::label('price', trans('admin/show.label_price'), ['class' => 'control-label col-lg-1']) !!}
                 <div class="col-lg-11">
-                    {!! Form::number('price', ($show ? $show->price : 0), ['class' => 'form-control', 'required', 'min' => 0]) !!}
+                    {!! Form::number('price', ($show ? (float)$show->price : 0), ['class' => 'form-control', 'required', 'min' => 0]) !!}
                 </div>
             </div>
             @if ($errors->has('price'))

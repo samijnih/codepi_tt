@@ -20,7 +20,7 @@ class CreateShowsTable extends Migration
             $table->string('address')->nullable();
             $table->date('date');
             $table->time('time');
-            $table->integer('price');
+            $table->float('price');
             $table->timestamps();
 
             $table->foreign('artist_id')->references('id')->on('artists');

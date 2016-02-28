@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use URL;
 
 class Artist extends Model
 {
@@ -18,6 +19,22 @@ class Artist extends Model
         'tags',
     ];
 
+
+    ////////////////////////
+    // Dynamic Attributes //
+    ////////////////////////
+
+    /**
+     * Format the `image` attribute
+     * 
+     * @param $value
+     * 
+     * @return string
+     */
+    public function getImageAttribute($value)
+    {
+        return URL::asset("img/{$value}");
+    }
 
     ///////////////////
     // Relationships //
@@ -47,5 +64,19 @@ class Artist extends Model
     public static function findByName($name)
     {
         return static::where('name', $name)->first();
+    }
+
+    /**
+     * Get all available tags.
+     * 
+     * @return mixed
+     */
+    public static function tags()
+    {
+        return static::select('tags')
+            ->distinct()
+            ->where('tags', '<>', '')
+            ->orderBy('tags')
+            ->get();
     }
 }
