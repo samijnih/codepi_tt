@@ -60,7 +60,32 @@ Route::group([
     ], function () {
         Route::get('/', [
             'as'   => 'index',
-            'uses' => 'ShowController@getIndex',
+            'uses' => 'ShowController@index',
+        ]);
+
+        Route::get('create', [
+            'as'   => 'create',
+            'uses' => 'ShowController@create',
+        ]);
+
+        Route::get('{$id}', [
+            'as'   => 'show',
+            'uses' => 'ShowController@show',
+        ]);
+
+        Route::post('{$id}', [
+            'as'   => 'store',
+            'uses' => 'ShowController@store',
+        ]);
+
+        Route::patch('{$id}', [
+            'as'   => 'update',
+            'uses' => 'ShowController@update',
+        ]);
+
+        Route::delete('{$id}', [
+            'as'   => 'destroy',
+            'uses' => 'ShowController@destroy',
         ]);
     });
 });

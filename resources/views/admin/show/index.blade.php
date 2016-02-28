@@ -1,0 +1,45 @@
+@extends('layout.master')
+
+@section('css')
+    {!! Html::style(URL::asset('css/admin.css')) !!}
+@endsection
+
+@section('content')
+    <div class="row">
+    <a href="{{ route('admin::show::create') }}" class="btn btn-success pull-right m-t-20">{{ trans('admin/show.index_new_show') }}</a>
+        <h2>{{ trans('admin/show.index_h2') }}</h2>
+
+
+        <table class="table table-bordered table-striped m-t-30">
+            <thead>
+                <th>{{ trans('admin/show.index_thead_artist') }}</th>
+                <th>{{ trans('admin/show.index_thead_date') }}</th>
+                <th>{{ trans('admin/show.index_thead_place') }}</th>
+                <th></th>
+                <th></th>
+            </thead>
+            <tbody>
+            @forelse($shows as $show)
+                <tr>
+                    <td>{{ $show->artist->name }}</td>
+                    <td>{{ \Carbon\Carbon::parse($show->date)->formatLocalized('%d/%m/%Y') }}</td>
+                    <td>{{ $show->place }}</td>
+                    <td>
+                        <a href="{{ route('admin::show::show', [$show->id]) }}">{{ trans('admin/show.edit_show') }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ route('admin::show::destroy', [$show->id]) }}">{{ trans('admin/show.destroy_show') }}</a>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>{{ trans('admin/show.index_no_show') }}</td>
+                </tr>
+            @endforelse
+        </table>
+
+        <div class="text-center">
+            @include('pagination.default', ['paginator' => $shows])
+        </div>
+    </div>
+@endsection
