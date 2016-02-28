@@ -1,22 +1,8 @@
 @extends('layout.master')
 
-@section('css')
-    {!! Html::style(URL::asset('css/admin.css')) !!}
-@endsection
-
 @section('content')
     <div class="row">
         <h2>{{ trans('index.h2') }}</h2>
-
-        @if ($errors->count())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <div class="row m-t-20" id="filters-container">
             <div id="search-container">

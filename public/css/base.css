@@ -273,11 +273,74 @@
 }
 
 .thumbnail {
-    background-size: cover;
-    width: 370px;
+    overflow: hidden;
+    background-size: contain;
+    background-position: center center;
+    width: 100%;
+    background-repeat: no-repeat;
     height: 300px;
 }
 
 .pagination li span {
     cursor: pointer;
+}
+
+/* Show */
+
+.return-to-index {
+    text-decoration: underline;
+}
+
+.artist-cover {
+    height: 500px;
+    background-repeat: no-repeat;
+    background-position: center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    width: 100%;
+}
+
+.artist-description {
+
+}
+
+.bordered {
+    border: 1px solid black;
+}
+
+#artist-show {
+    width: 74%;
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#show-order {
+    width: 26%;
+    float: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#show-order label {
+    text-decoration: underline;
+}
+
+#show-order div.col-lg-12 {
+    padding: 0;
+}
+
+#order-button {
+    padding: 10px;
+}
+
+#order-button span {
+    position: relative;
+    top: -4px;
+}
+
+#map {
+    height: 250px;
 }
