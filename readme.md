@@ -1,3 +1,13 @@
+# Installation
+
+Il suffit tout simplement de faire un "composer install".
+- Une fois les dépendances installées, veuillez faire un "php artisan db:install".
+- Le nom de la base de donnée sera demandé ainsi que les identifiants de connexion MySQL.
+- Lorsque le premier nom de fichier CSV est demandé, il suffit de taper "artistes".
+- Lorsque le deuxième nom de fichier CSV est demandé, il suffit de taper "concerts".
+- Il est nécessaire d'avoir un VHOST qui tape sur l'url suivante : test.codepi.com
+- L'admin est accessible sur test.codepi.com/admin
+
 # Codepi : Test technique Laravel
 
 Le test suivant consiste à développer une micro-application Laravel de recherche
